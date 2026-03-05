@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function SignUpForm() {
   // ユーザーが入力するデータを管理する状態
@@ -10,6 +11,9 @@ function SignUpForm() {
 
   // 入力エラーを管理する状態
   const [errors, setErrors] = useState({});
+
+  // ページ遷移用
+  const navigate = useNavigate();
 
   // 入力が変更されたときに実行される関数
   const handleInputChange = (e) => {
@@ -37,36 +41,49 @@ function SignUpForm() {
     // エラーがなければ成功メッセージを表示
     if (Object.keys(newErrors).length === 0) {
       alert("アカウント作成が完了しました！（仮）");
+      navigate("/login"); // ログイン画面に遷移
     }
   };
 
-  // 各種スタイルを定義
+  // スタイル設定
   const formStyle = {
     display: "flex",
-    flexDirection: "column", // 縦方向に並べる
-    gap: "15px", // 各要素の間隔
-    margin: "0 auto", // 横方向に中央揃え
+    flexDirection: "column",
+    gap: "15px",
+    margin: "0 auto",
+    maxWidth: "400px",
   };
 
   const inputStyle = {
     padding: "10px",
     fontSize: "16px",
     width: "100%",
-    boxSizing: "border-box", // ボーダーとパディングを含めた幅計算
+    boxSizing: "border-box",
   };
 
   const errorStyle = {
     color: "red",
-    fontSize: "12px", // エラー表示用の小さいフォント
+    fontSize: "12px",
   };
 
   const buttonStyle = {
     padding: "10px",
     fontSize: "16px",
-    backgroundColor: "#007bff", // 青色の背景
-    color: "#fff", // 白色の文字
+    backgroundColor: "#007bff",
+    color: "#fff",
     border: "none",
-    cursor: "pointer", // ホバー時にポインタ表示
+    cursor: "pointer",
+  };
+
+  const linkButtonStyle = {
+    padding: "10px",
+    fontSize: "16px",
+    backgroundColor: "transparent",
+    color: "#007bff",
+    border: "none",
+    textDecoration: "underline",
+    cursor: "pointer",
+    textAlign: "center",
   };
 
   return (
@@ -78,7 +95,7 @@ function SignUpForm() {
           name="username"
           placeholder="ユーザー名"
           value={formData.username}
-          onChange={handleInputChange} // 入力変更をハンドリング
+          onChange={handleInputChange}
           style={inputStyle}
         />
         {errors.username && <p style={errorStyle}>{errors.username}</p>}
@@ -110,9 +127,18 @@ function SignUpForm() {
         {errors.password && <p style={errorStyle}>{errors.password}</p>}
       </div>
 
-      {/* 送信ボタン */}
+      {/* アカウント作成ボタン */}
       <button type="submit" style={buttonStyle}>
         アカウント作成
+      </button>
+
+      {/* ログイン画面に戻るボタン */}
+      <button
+        type="button"
+        onClick={() => navigate("/login")}
+        style={linkButtonStyle}
+      >
+        ログイン画面に戻る
       </button>
     </form>
   );
